@@ -9,6 +9,7 @@ class TgBot:
 class Config:
     tg_bot: TgBot
 
+
 def load_config(path: str or None = None) -> Config:
     env = Env()
     env.read_env(path)

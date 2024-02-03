@@ -2,6 +2,10 @@ import torch
 import torch.nn as nn
 from PIL import Image
 from torchvision import transforms
+import os
+
+model_path = os.getcwd().replace(os.sep, '/')
+
 
 class DownBlock(nn.Module):
     def __init__(self, inputs, outputs, kernel=4, stride=2, padding=1, norm=True, z_pad=False, is_last=False):
@@ -111,7 +115,7 @@ class Generator(nn.Module):
 
 
 model_gan = Generator()
-model_gan.load_state_dict(torch.load('C:/Users/nkuzn/PycharmProjects/StyleBot2/venv/models/style_generator.pth',
+model_gan.load_state_dict(torch.load(f'{model_path}/models/style_generator.pth',
                                      map_location=torch.device('cpu')))
 model_gan.eval()
 

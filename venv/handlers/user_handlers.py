@@ -1,5 +1,6 @@
 from aiogram import Router, types
 from aiogram.types import Message
+#from aiogram.client import bot
 from aiogram.filters import Command, CommandStart, StateFilter
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import default_state, State, StatesGroup
@@ -77,7 +78,7 @@ async def process_style_button(message: Message, state: FSMContext):
 
 #Этот хэндлер будет реагировать на загруженное фото
 @router.message(StateFilter(FSMStyle.style1_ph1), F.photo)
-async def photo_transformer(message: Message, state: FSMContext):
+async def photo_catcher(message: Message, state: FSMContext):
     image = message.photo[-1]
     file_info = await message.bot.get_file(image.file_id)
     user_dict[message.chat.id]['photo1'] = await message.bot.download_file(file_info.file_path)
@@ -104,8 +105,8 @@ async def style1_transformer(message: Message, state: FSMContext):
 @router.message(StateFilter(FSMStyle.style2), F.photo)
 async def style2_transformer(message: Message, state: FSMContext):
     image = message.photo[-1]
-    file_info = await message.bot.get_file(image.file_id)
-    user_dict[message.chat.id]['photo1'] = await message.bot.download_file(file_info.file_path)
+    file_info = await bot.get_file(image.file_id)
+    user_dict[message.chat.id]['photo1'] = await bot.download_file(file_info.file_path)
     final = transfer(user_dict[message.chat.id]['photo1'])
     final.save(os.path.join(res_path, f'{message.chat.id}final.jpg').replace(os.sep, '/'))
     await message.answer_photo(types.FSInputFile(path=os.path.join(res_path, f'{message.chat.id}final.jpg').replace(os.sep, '/')),

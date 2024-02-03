@@ -2,9 +2,11 @@ import torch
 import torch.nn.functional as F
 import torch.nn as nn
 from torch import optim
+import os
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
+model_path = os.getcwd().replace(os.sep, '/')
 
 class ContentLoss(nn.Module):
     def __init__(self, target):
@@ -119,5 +121,5 @@ class StyleTransfer(nn.Module):
         return input_img
 
 
-vgg_small_model = torch.jit.load('C:/Users/nkuzn/PycharmProjects/StyleBot2/venv/models/model_scripted.pt')
+vgg_small_model = torch.jit.load(f'{model_path}/models/model_scripted.pt')
 style_model = StyleTransfer(vgg_small_model)
